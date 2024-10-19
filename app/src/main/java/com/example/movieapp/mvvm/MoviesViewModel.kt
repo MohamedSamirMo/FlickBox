@@ -19,6 +19,8 @@ class MoviesViewModel @Inject constructor(val moviesRepository: MoviesRepository
 
     val _errorLiveData = MutableLiveData<String>()
     val errorLiveData get() = _errorLiveData
+    val _loading=MutableLiveData<Boolean>()
+    val loading get() = _loading
 
     // تعديل نوع الـ LiveData الخاص بتفاصيل الفيلم
     private val _movieDetailsLiveData = MutableLiveData<DetailsModel?>()
@@ -32,9 +34,12 @@ class MoviesViewModel @Inject constructor(val moviesRepository: MoviesRepository
 
     private fun getMovies() {
         viewModelScope.launch(IO) {
+
             try {
-                val data = moviesRepository.getMovie()
+                _loading.postValue(true)
+                val data = moviesRepository.getAllMoviesFromPages()
                 _moviesLiveData.postValue(data)
+                _loading.postValue(false)
             } catch (e: Exception) {
                 _errorLiveData.postValue(e.message)
             }

@@ -24,6 +24,7 @@ class HomeFragment :Fragment() {
 
     val MoviesViewModel: MoviesViewModel by viewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -10,9 +10,11 @@ import retrofit2.http.Query
 
 interface ApiServices {
     // Retrofit with Coroutines
-@GET("discover/movie")
-suspend fun getMovies():MovieModel
-
+    // الحصول على الأفلام مع دعم pagination عبر تمرير رقم الصفحة
+    @GET("discover/movie")
+    suspend fun getMovies(
+        @Query("page") page: Int
+    ): MovieModel
 @GET("search/movie")
 suspend fun searchMovies(@Query("query") query: String): MovieModel
 //    @GET("movie/{movie_id}")
@@ -21,6 +23,22 @@ suspend fun searchMovies(@Query("query") query: String): MovieModel
     suspend fun getMovieVideos(@Path("movie_id") movieId: Int): MovieResult
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(@Path("movie_id") movieId: Int): DetailsModel
+
+
+
+    // جلب الأفلام الأكثر شهرة
+    @GET("movie/popular")
+    suspend fun getPopularMovies(): List<MovieResult>?
+
+    // جلب الأفلام ذات التقييم الأعلى
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(): List<MovieResult>?
+
+    // جلب الأفلام التي تُعرض حالياً
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(): List<MovieResult>?
+
+
 }
 // Retrofit with Rxjava
 //@GET("posts")
